@@ -3,14 +3,10 @@
 	xsi:schemaLocation="http://www.omg.org/spec/XTCE/20180204 https://www.omg.org/spec/XTCE/20180204/SpaceSystem.xsd">
 	<TelemetryMetaData>
 		<ParameterTypeSet>
-			<AggregateParameterType name="CCSDS_Packet_ID_Type">
-				<MemberList>
-					<Member name="Version" typeRef="CCSDSVersionType" />
-					<Member name="Type" typeRef="CCSDSTypeType" />
-					<Member name="SecHdrFlag" typeRef="CCSDSSecHdrFlagType" />
-					<Member name="APID" typeRef="CCSDSAPIDType" />
-				</MemberList>
-			</AggregateParameterType>
+			<BinaryParameterType name="CCSDS_Packet_Header_Type">
+				<UnitSet />
+				<IntegerDataEncoding sizeInBits="8" />
+			</BinaryParameterType>
 			<AggregateParameterType name="CCSDS_Packet_Sequence_Type">
 				<MemberList>
 					<Member name="GroupFlags" typeRef="CCSDSGroupFlagsType" />
@@ -71,6 +67,14 @@
 				<UnitSet />
 				<IntegerDataEncoding encoding="unsigned" sizeInBits="32" />
 			</IntegerParameterType>
+			<IntegerParameterType name="uint8_t" signed="false">
+				<UnitSet />
+				<IntegerDataEncoding encoding="unsigned" sizeInBits="8" />
+			</IntegerParameterType>
+			<IntegerParameterType name="uint16_t" signed="false">
+				<UnitSet />
+				<IntegerDataEncoding encoding="unsigned" sizeInBits="16" />
+			</IntegerParameterType>
 			<FloatParameterType name="float_t">
 				<UnitSet />
 				<FloatDataEncoding sizeInBits="32" />
@@ -81,134 +85,91 @@
 			</BooleanParameterType>
 			<AggregateParameterType name="vec3_t">
 				<MemberList>
-					<Member name="x" typeRef="float_t" />
-					<Member name="y" typeRef="float_t" />
-					<Member name="z" typeRef="float_t" />
+					<Member name="x" typeRef="uint16_t" />
+					<Member name="y" typeRef="uint16_t" />
+					<Member name="z" typeRef="uint16_t" />
 				</MemberList>
 			</AggregateParameterType>
+			<AggregateParameterType name="time_t">
+				<MemberList>
+					<Member name="Hour" typeRef="uint8_t" />
+					<Member name="Minute" typeRef="uint8_t" />
+					<Member name="Second" typeRef="uint8_t" />
+				</MemberList>
+			</AggregateParameterType>
+			<BinaryParameterType name="TBD_Data_Type">
+				<UnitSet />
+				<BinaryDataEncoding>
+					<SizeInBits>
+						<FixedValue>160</FixedValue>
+					</SizeInBits>
+				</BinaryDataEncoding>
+			</BinaryParameterType>
+			<BinaryParameterType name="CCSDS_Packet_End_Type">
+				<UnitSet />
+				<BinaryDataEncoding>
+					<SizeInBits>
+						<FixedValue>8</FixedValue>
+					</SizeInBits>
+				</BinaryDataEncoding>
+			</BinaryParameterType>
+			<BinaryParameterType name="CCSDS_Packet_CRC_Type">
+				<UnitSet />
+				<BinaryDataEncoding>
+					<SizeInBits>
+						<FixedValue>8</FixedValue>
+					</SizeInBits>
+				</BinaryDataEncoding>
+			</BinaryParameterType>
 		</ParameterTypeSet>
 		<ParameterSet>
-			<Parameter name="CCSDS_Packet_ID" parameterTypeRef="CCSDS_Packet_ID_Type" />
-			<Parameter name="CCSDS_Packet_Sequence" parameterTypeRef="CCSDS_Packet_Sequence_Type" />
-			<Parameter name="CCSDS_Packet_Length" parameterTypeRef="CCSDSPacketLengthType" />
-			<Parameter name="EpochUSNO" parameterTypeRef="float_t" />
-			<Parameter name="OrbitNumberCumulative" parameterTypeRef="uint32_t" />
-			<Parameter name="ElapsedSeconds" parameterTypeRef="uint32_t" />
-			<Parameter name="A" parameterTypeRef="float_t" />
-			<Parameter name="Height" parameterTypeRef="float_t" />
-			<Parameter name="Position" parameterTypeRef="vec3_t" />
-			<Parameter name="Velocity" parameterTypeRef="vec3_t" />
-			<Parameter name="Latitude" parameterTypeRef="float_t" />
-			<Parameter name="Longitude" parameterTypeRef="float_t" />
-			<Parameter name="Battery1_Voltage" parameterTypeRef="float_t" />
-			<Parameter name="Battery2_Voltage" parameterTypeRef="float_t" />
-			<Parameter name="Battery1_Temp" parameterTypeRef="float_t" />
-			<Parameter name="Battery2_Temp" parameterTypeRef="float_t" />
-			<Parameter name="Magnetometer" parameterTypeRef="vec3_t" />
-			<Parameter name="Sunsensor" parameterTypeRef="float_t" />
-			<Parameter name="Gyro" parameterTypeRef="vec3_t" />
-			<Parameter name="Detector_Temp" parameterTypeRef="float_t" />
-			<Parameter name="Shadow" parameterTypeRef="bool_t" />
-			<Parameter name="Contact_Golbasi_GS" parameterTypeRef="bool_t" />
-			<Parameter name="Contact_Svalbard" parameterTypeRef="bool_t" />
-			<Parameter name="Payload_Status" parameterTypeRef="bool_t" />
-			<Parameter name="Payload_Error_Flag" parameterTypeRef="bool_t" />
-			<Parameter name="ADCS_Error_Flag" parameterTypeRef="bool_t" />
-			<Parameter name="CDHS_Error_Flag" parameterTypeRef="bool_t" />
-			<Parameter name="COMMS_Error_Flag" parameterTypeRef="bool_t" />
-			<Parameter name="EPS_Error_Flag" parameterTypeRef="bool_t" />
-			<Parameter name="COMMS_Status" parameterTypeRef="bool_t" />
-			<Parameter name="CDHS_Status" parameterTypeRef="bool_t" />
-			<Parameter name="Mode_Night" parameterTypeRef="bool_t" />
-			<Parameter name="Mode_Day" parameterTypeRef="bool_t" />
-			<Parameter name="Mode_Payload" parameterTypeRef="bool_t" />
-			<Parameter name="Mode_XBand" parameterTypeRef="bool_t" />
-			<Parameter name="Mode_SBand" parameterTypeRef="bool_t" />
-			<Parameter name="Mode_Safe" parameterTypeRef="bool_t" />
-
-			<Parameter name="Enum_Para_1" parameterTypeRef="EnumerationTest" />
-			<Parameter name="Enum_Para_2" parameterTypeRef="EnumerationTest" />
-			<Parameter name="Enum_Para_3" parameterTypeRef="EnumerationTest" />
+			<Parameter name="CCSDS_Packet_Header" parameterTypeRef="CCSDS_Packet_Header_Type" />
+			<Parameter name="CCSDS_Packet_Time" parameterTypeRef="time_t" />
+			<Parameter name="Robot_ID" parameterTypeRef="uint8_t" />
+			<Parameter name="ClusterSize" parameterTypeRef="uint8_t" />
+			<Parameter name="NavCycles" parameterTypeRef="uint16_t" />
+			<Parameter name="I_Sys" parameterTypeRef="uint16_t" />
+			<Parameter name="I_Mot" parameterTypeRef="uint16_t" />
+			<Parameter name="V_uC" parameterTypeRef="uint8_t" />
+			<Parameter name="Tmp_uC" parameterTypeRef="uint8_t" />
+			<Parameter name="Tmp_top" parameterTypeRef="uint16_t" />
+			<Parameter name="Tmp_bottom" parameterTypeRef="uint16_t" />
+			<Parameter name="M" parameterTypeRef="vec3_t" />
+			<Parameter name="TBD" parameterTypeRef="TBD_Data_Type" />
+			<Parameter name="CCSDS_Packet_End" parameterTypeRef="CCSDS_Packet_End_Type" />
+			<Parameter name="CCSDS_Packet_CRCH" parameterTypeRef="CCSDS_Packet_CRC_Type" />
+			<Parameter name="CCSDS_Packet_CRCL" parameterTypeRef="CCSDS_Packet_CRC_Type" />
 		</ParameterSet>
 		<ContainerSet>
 			<SequenceContainer abstract="true" name="CCSDSPacket">
 				<EntryList>
-					<ParameterRefEntry parameterRef="CCSDS_Packet_ID" />
-					<ParameterRefEntry parameterRef="CCSDS_Packet_Sequence" />
-					<ParameterRefEntry parameterRef="CCSDS_Packet_Length" />
+					<ParameterRefEntry parameterRef="CCSDS_Packet_Header" />
+					<ParameterRefEntry parameterRef="CCSDS_Packet_Time" />
 				</EntryList>
-			</SequenceContainer>
-			<SequenceContainer name="TelemetryPacket">
-				<EntryList />
-				<BaseContainer containerRef="CCSDSPacket">
-					<RestrictionCriteria>
-						<ComparisonList>
-							<Comparison value="0" parameterRef="CCSDS_Packet_ID/Version" />
-							<Comparison value="TM" parameterRef="CCSDS_Packet_ID/Type" />
-						</ComparisonList>
-					</RestrictionCriteria>
-				</BaseContainer>
 			</SequenceContainer>
 			<SequenceContainer name="Spacecraft">
 				<EntryList>
-					<ParameterRefEntry parameterRef="EpochUSNO" />
-					<ParameterRefEntry parameterRef="OrbitNumberCumulative" />
-					<ParameterRefEntry parameterRef="ElapsedSeconds" />
-					<ParameterRefEntry parameterRef="A" />
-					<ParameterRefEntry parameterRef="Height" />
-					<ParameterRefEntry parameterRef="Position" />
-					<ParameterRefEntry parameterRef="Velocity" />
-					<ParameterRefEntry parameterRef="Latitude" />
-					<ParameterRefEntry parameterRef="Longitude" />
-					<ParameterRefEntry parameterRef="Battery1_Voltage" />
-					<ParameterRefEntry parameterRef="Battery2_Voltage" />
-					<ParameterRefEntry parameterRef="Battery1_Temp" />
-					<ParameterRefEntry parameterRef="Battery2_Temp" />
-					<ParameterRefEntry parameterRef="Magnetometer" />
-					<ParameterRefEntry parameterRef="Sunsensor" />
-					<ParameterRefEntry parameterRef="Gyro" />
-					<ParameterRefEntry parameterRef="Detector_Temp" />
-					<ParameterRefEntry parameterRef="Shadow" />
-					<ParameterRefEntry parameterRef="Contact_Golbasi_GS" />
-					<ParameterRefEntry parameterRef="Contact_Svalbard" />
-					<ParameterRefEntry parameterRef="Payload_Status" />
-					<ParameterRefEntry parameterRef="Payload_Error_Flag" />
-					<ParameterRefEntry parameterRef="ADCS_Error_Flag" />
-					<ParameterRefEntry parameterRef="CDHS_Error_Flag" />
-					<ParameterRefEntry parameterRef="COMMS_Error_Flag" />
-					<ParameterRefEntry parameterRef="EPS_Error_Flag" />
-					<ParameterRefEntry parameterRef="COMMS_Status" />
-					<ParameterRefEntry parameterRef="CDHS_Status" />
-					<ParameterRefEntry parameterRef="Mode_Night" />
-					<ParameterRefEntry parameterRef="Mode_Day" />
-					<ParameterRefEntry parameterRef="Mode_Payload" />
-					<ParameterRefEntry parameterRef="Mode_XBand" />
-					<ParameterRefEntry parameterRef="Mode_SBand" />
-					<ParameterRefEntry parameterRef="Mode_Safe" />
-					<ParameterRefEntry parameterRef="Enum_Para_1" >
-						<LocationInContainerInBits referenceLocation="containerStart">
-                         	<FixedValue>29</FixedValue>
-                        </LocationInContainerInBits>
-					</ParameterRefEntry>
-					<ParameterRefEntry parameterRef="Enum_Para_2" >
-						<LocationInContainerInBits referenceLocation="containerStart">
-                         	<FixedValue>27</FixedValue>
-                        </LocationInContainerInBits>
-					</ParameterRefEntry>
-					<ParameterRefEntry parameterRef="Enum_Para_3" >
-						<LocationInContainerInBits referenceLocation="containerStart">
-                         	<FixedValue>25</FixedValue>
-                        </LocationInContainerInBits>
-					</ParameterRefEntry>
+					<ParameterRefEntry parameterRef="Robot_ID" />
+					<ParameterRefEntry parameterRef="ClusterSize" />
+					<ParameterRefEntry parameterRef="NavCycles" />
+					<ParameterRefEntry parameterRef="I_Sys" />
+					<ParameterRefEntry parameterRef="I_Mot" />
+					<ParameterRefEntry parameterRef="V_uC" />
+					<ParameterRefEntry parameterRef="Tmp_uC" />
+					<ParameterRefEntry parameterRef="Tmp_top" />
+					<ParameterRefEntry parameterRef="Tmp_bottom" />
+					<ParameterRefEntry parameterRef="M" />
+					<ParameterRefEntry parameterRef="TBD" />
 				</EntryList>
-				<BaseContainer containerRef="TelemetryPacket">
-					<RestrictionCriteria>
-						<ComparisonList>
-							<Comparison value="NotPresent" parameterRef="CCSDS_Packet_ID/SecHdrFlag" />
-							<Comparison value="100" parameterRef="CCSDS_Packet_ID/APID" />
-						</ComparisonList>
-					</RestrictionCriteria>
-				</BaseContainer>
+				<BaseContainer containerRef="CCSDSPacket"/>
+			</SequenceContainer>
+			<SequenceContainer name="CCSDSPacketEnding">
+				<EntryList>
+					<ParameterRefEntry parameterRef="CCSDS_Packet_End" />
+					<ParameterRefEntry parameterRef="CCSDS_Packet_CRCH" />
+					<ParameterRefEntry parameterRef="CCSDS_Packet_CRCL" />
+				</EntryList>
+				<BaseContainer containerRef="Spacecraft"/>
 			</SequenceContainer>
 		</ContainerSet>		
 	</TelemetryMetaData>
