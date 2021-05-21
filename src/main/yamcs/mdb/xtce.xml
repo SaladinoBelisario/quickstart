@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SpaceSystem name="myproject" xmlns="http://www.omg.org/spec/XTCE/20180204" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.omg.org/spec/XTCE/20180204 https://www.omg.org/spec/XTCE/20180204/SpaceSystem.xsd">
+<SpaceSystem xmlns="http://www.omg.org/space/xtce" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 name="TTDM" shortDescription="LINX TTDM Probe"
+			xsi:schemaLocation="http://www.omg.org/space/xtce SpaceSystemV1.2-27Feb2014-mods.xsd">
 	<TelemetryMetaData>
 		<ParameterTypeSet>
-			<BinaryParameterType name="CCSDS_Packet_Header_Type">
+			<BinaryParameterType name="CCSDS_Packet_Header_Type" initialValue="52">
 				<UnitSet />
 				<IntegerDataEncoding sizeInBits="8" />
 			</BinaryParameterType>
@@ -105,7 +106,7 @@
 					</SizeInBits>
 				</BinaryDataEncoding>
 			</BinaryParameterType>
-			<BinaryParameterType name="CCSDS_Packet_End_Type">
+			<BinaryParameterType name="CCSDS_Packet_End_Type" initialValue="4C">
 				<UnitSet />
 				<BinaryDataEncoding>
 					<SizeInBits>
@@ -123,8 +124,8 @@
 			</BinaryParameterType>
 		</ParameterTypeSet>
 		<ParameterSet>
-			<Parameter name="CCSDS_Packet_Header" parameterTypeRef="CCSDS_Packet_Header_Type" />
-			<Parameter name="CCSDS_Packet_Time" parameterTypeRef="time_t" />
+			<Parameter name="Packet_Header" parameterTypeRef="CCSDS_Packet_Header_Type" />
+			<Parameter name="Packet_Time" parameterTypeRef="time_t" />
 			<Parameter name="Robot_ID" parameterTypeRef="uint8_t" />
 			<Parameter name="ClusterSize" parameterTypeRef="uint8_t" />
 			<Parameter name="NavCycles" parameterTypeRef="uint16_t" />
@@ -136,9 +137,9 @@
 			<Parameter name="Tmp_bottom" parameterTypeRef="uint16_t" />
 			<Parameter name="M" parameterTypeRef="vec3_t" />
 			<Parameter name="TBD" parameterTypeRef="TBD_Data_Type" />
-			<Parameter name="CCSDS_Packet_End" parameterTypeRef="CCSDS_Packet_End_Type" />
-			<Parameter name="CCSDS_Packet_CRCH" parameterTypeRef="CCSDS_Packet_CRC_Type" />
-			<Parameter name="CCSDS_Packet_CRCL" parameterTypeRef="CCSDS_Packet_CRC_Type" />
+			<Parameter name="Packet_End" parameterTypeRef="CCSDS_Packet_End_Type" />
+			<Parameter name="Packet_CRCH" parameterTypeRef="CCSDS_Packet_CRC_Type" />
+			<Parameter name="Packet_CRCL" parameterTypeRef="CCSDS_Packet_CRC_Type" />
 		</ParameterSet>
 		<ContainerSet>
 			<SequenceContainer abstract="true" name="CCSDSPacket">
@@ -161,15 +162,23 @@
 					<ParameterRefEntry parameterRef="M" />
 					<ParameterRefEntry parameterRef="TBD" />
 				</EntryList>
-				<BaseContainer containerRef="CCSDSPacket"/>
+				<BaseContainer containerRef="CCSDSPacket">
+					<RestrictionCriteria>
+						<Comparison parameterRef="Packet_Header" value="52"/>
+					</RestrictionCriteria>
+				</BaseContainer>
 			</SequenceContainer>
 			<SequenceContainer name="CCSDSPacketEnding">
 				<EntryList>
-					<ParameterRefEntry parameterRef="CCSDS_Packet_End" />
-					<ParameterRefEntry parameterRef="CCSDS_Packet_CRCH" />
-					<ParameterRefEntry parameterRef="CCSDS_Packet_CRCL" />
+					<ParameterRefEntry parameterRef="Packet_End" />
+					<ParameterRefEntry parameterRef="Packet_CRCH" />
+					<ParameterRefEntry parameterRef="Packet_CRCL" />
 				</EntryList>
-				<BaseContainer containerRef="Spacecraft"/>
+				<BaseContainer containerRef="Spacecraft">
+					<RestrictionCriteria>
+						<Comparison parameterRef="Packet_End" value="4C"/>
+					</RestrictionCriteria>
+				</BaseContainer>
 			</SequenceContainer>
 		</ContainerSet>		
 	</TelemetryMetaData>
