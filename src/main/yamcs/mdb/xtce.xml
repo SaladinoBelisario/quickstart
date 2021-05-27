@@ -4,66 +4,10 @@
 			xsi:schemaLocation="http://www.omg.org/space/xtce SpaceSystemV1.2-27Feb2014-mods.xsd">
 	<TelemetryMetaData>
 		<ParameterTypeSet>
-			<BinaryParameterType name="CCSDS_Packet_Header_Type" initialValue="52">
+			<BinaryParameterType name="Packet_Header_Type" initialValue="52">
 				<UnitSet />
 				<IntegerDataEncoding sizeInBits="8" />
 			</BinaryParameterType>
-			<AggregateParameterType name="CCSDS_Packet_Sequence_Type">
-				<MemberList>
-					<Member name="GroupFlags" typeRef="CCSDSGroupFlagsType" />
-					<Member name="Count" typeRef="CCSDSSourceSequenceCountType" />
-				</MemberList>
-			</AggregateParameterType>
-			<IntegerParameterType name="CCSDSVersionType" signed="false" initialValue="0">
-				<UnitSet />
-				<IntegerDataEncoding sizeInBits="3" />
-			</IntegerParameterType>
-			<BooleanParameterType name="CCSDSTypeType" zeroStringValue="TM" oneStringValue="TC">
-				<UnitSet />
-				<IntegerDataEncoding sizeInBits="1" />
-			</BooleanParameterType>
-			<BooleanParameterType name="CCSDSSecHdrFlagType" zeroStringValue="NotPresent" oneStringValue="Present">
-				<UnitSet />
-				<IntegerDataEncoding sizeInBits="1" />
-			</BooleanParameterType>
-			<IntegerParameterType name="CCSDSAPIDType" signed="false">
-				<UnitSet />
-				<IntegerDataEncoding sizeInBits="11" />
-			</IntegerParameterType>
-			<EnumeratedParameterType name="CCSDSGroupFlagsType" initialValue="Standalone">
-				<UnitSet />
-				<IntegerDataEncoding sizeInBits="2" />
-				<EnumerationList>
-					<Enumeration value="0" label="Continuation" />
-					<Enumeration value="1" label="First" />
-					<Enumeration value="2" label="Last" />
-					<Enumeration value="3" label="Standalone" />
-				</EnumerationList>
-			</EnumeratedParameterType>
-			<EnumeratedParameterType name="EnumerationTest">
-				<UnitSet />
-				<IntegerDataEncoding sizeInBits="3" />
-				<EnumerationList>
-					<Enumeration value="0" label="ENUM_VALUE_0" />
-					<Enumeration value="1" label="ENUM_VALUE_1" />
-					<Enumeration value="2" label="ENUM_VALUE_2" />
-					<Enumeration value="3" label="ENUM_VALUE_3" />
-					<Enumeration value="4" label="ENUM_VALUE_4" />
-					<Enumeration value="5" label="ENUM_VALUE_5" />
-					<Enumeration value="6" label="ENUM_VALUE_6" />
-					<Enumeration value="7" label="ENUM_VALUE_7" />
-				</EnumerationList>
-			</EnumeratedParameterType>
-			<IntegerParameterType name="CCSDSSourceSequenceCountType" signed="false">
-				<UnitSet />
-				<IntegerDataEncoding sizeInBits="14" />
-			</IntegerParameterType>
-			<IntegerParameterType name="CCSDSPacketLengthType" signed="false">
-				<UnitSet>
-					<Unit description="Size">Octets</Unit>
-				</UnitSet>
-				<IntegerDataEncoding sizeInBits="16" />
-			</IntegerParameterType>
 			<IntegerParameterType name="uint32_t" signed="false">
 				<UnitSet />
 				<IntegerDataEncoding encoding="unsigned" sizeInBits="32" />
@@ -84,7 +28,7 @@
 				<UnitSet />
 				<IntegerDataEncoding sizeInBits="8" />
 			</BooleanParameterType>
-			<AggregateParameterType name="vec3_t">
+			<AggregateParameterType name="magnetometer_t">
 				<MemberList>
 					<Member name="x" typeRef="uint16_t" />
 					<Member name="y" typeRef="uint16_t" />
@@ -98,6 +42,26 @@
 					<Member name="Second" typeRef="uint8_t" />
 				</MemberList>
 			</AggregateParameterType>
+			<AggregateParameterType name="nav_t">
+				<MemberList>
+					<Member name="Cluster_Size" typeRef="uint8_t" />
+					<Member name="Nav_cycles" typeRef="uint16_t" />
+				</MemberList>
+			</AggregateParameterType>
+			<AggregateParameterType name="power_t">
+				<MemberList>
+					<Member name="I_sys" typeRef="uint16_t" />
+					<Member name="I_mot" typeRef="uint16_t" />
+					<Member name="V_uC" typeRef="uint8_t" />
+				</MemberList>
+			</AggregateParameterType>
+			<AggregateParameterType name="tmp_t">
+				<MemberList>
+					<Member name="Tmp_uC" typeRef="uint8_t" />
+					<Member name="Tmp_top" typeRef="uint16_t" />
+					<Member name="Tmp_bottom" typeRef="uint16_t" />
+				</MemberList>
+			</AggregateParameterType>
 			<BinaryParameterType name="TBD_Data_Type">
 				<UnitSet />
 				<BinaryDataEncoding>
@@ -106,7 +70,7 @@
 					</SizeInBits>
 				</BinaryDataEncoding>
 			</BinaryParameterType>
-			<BinaryParameterType name="CCSDS_Packet_End_Type" initialValue="4C">
+			<BinaryParameterType name="Packet_End_Type" initialValue="4C">
 				<UnitSet />
 				<BinaryDataEncoding>
 					<SizeInBits>
@@ -114,71 +78,45 @@
 					</SizeInBits>
 				</BinaryDataEncoding>
 			</BinaryParameterType>
-			<BinaryParameterType name="CCSDS_Packet_CRC_Type">
+			<BinaryParameterType name="crc16_t">
 				<UnitSet />
 				<BinaryDataEncoding>
 					<SizeInBits>
-						<FixedValue>8</FixedValue>
+						<FixedValue>16</FixedValue>
 					</SizeInBits>
 				</BinaryDataEncoding>
 			</BinaryParameterType>
+			<AggregateParameterType name="end_t">
+				<MemberList>
+					<Member name="END" typeRef="uint8_t" />
+					<Member name="CRC16" typeRef="crc16_t" />
+				</MemberList>
+			</AggregateParameterType>
 		</ParameterTypeSet>
 		<ParameterSet>
-			<Parameter name="Packet_Header" parameterTypeRef="CCSDS_Packet_Header_Type" />
+			<Parameter name="Packet_Header" parameterTypeRef="Packet_Header_Type" />
 			<Parameter name="Packet_Time" parameterTypeRef="time_t" />
 			<Parameter name="Robot_ID" parameterTypeRef="uint8_t" />
-			<Parameter name="ClusterSize" parameterTypeRef="uint8_t" />
-			<Parameter name="NavCycles" parameterTypeRef="uint16_t" />
-			<Parameter name="I_Sys" parameterTypeRef="uint16_t" />
-			<Parameter name="I_Mot" parameterTypeRef="uint16_t" />
-			<Parameter name="V_uC" parameterTypeRef="uint8_t" />
-			<Parameter name="Tmp_uC" parameterTypeRef="uint8_t" />
-			<Parameter name="Tmp_top" parameterTypeRef="uint16_t" />
-			<Parameter name="Tmp_bottom" parameterTypeRef="uint16_t" />
-			<Parameter name="M" parameterTypeRef="vec3_t" />
+			<Parameter name="Navigation_Data" parameterTypeRef="nav_t"/>
+			<Parameter name="Power" parameterTypeRef="power_t" />
+			<Parameter name="Temperature" parameterTypeRef="tmp_t" />
+			<Parameter name="Magnetometer" parameterTypeRef="magnetometer_t" />
 			<Parameter name="TBD" parameterTypeRef="TBD_Data_Type" />
-			<Parameter name="Packet_End" parameterTypeRef="CCSDS_Packet_End_Type" />
-			<Parameter name="Packet_CRCH" parameterTypeRef="CCSDS_Packet_CRC_Type" />
-			<Parameter name="Packet_CRCL" parameterTypeRef="CCSDS_Packet_CRC_Type" />
+			<Parameter name="End_Of_Transmission" parameterTypeRef="end_t" />
 		</ParameterSet>
 		<ContainerSet>
-			<SequenceContainer abstract="true" name="CCSDSPacket">
+			<SequenceContainer abstract="true" name="RSMeasureHeader">
 				<EntryList>
 					<ParameterRefEntry parameterRef="Packet_Header" />
 					<ParameterRefEntry parameterRef="Packet_Time" />
-				</EntryList>
-			</SequenceContainer>
-			<SequenceContainer name="Spacecraft">
-				<EntryList>
 					<ParameterRefEntry parameterRef="Robot_ID" />
-					<ParameterRefEntry parameterRef="ClusterSize" />
-					<ParameterRefEntry parameterRef="NavCycles" />
-					<ParameterRefEntry parameterRef="I_Sys" />
-					<ParameterRefEntry parameterRef="I_Mot" />
-					<ParameterRefEntry parameterRef="V_uC" />
-					<ParameterRefEntry parameterRef="Tmp_uC" />
-					<ParameterRefEntry parameterRef="Tmp_top" />
-					<ParameterRefEntry parameterRef="Tmp_bottom" />
-					<ParameterRefEntry parameterRef="M" />
+					<ParameterRefEntry parameterRef="Navigation_Data" />
+					<ParameterRefEntry parameterRef="Power" />
+					<ParameterRefEntry parameterRef="Temperature" />
+					<ParameterRefEntry parameterRef="Magnetometer" />
 					<ParameterRefEntry parameterRef="TBD" />
+					<ParameterRefEntry parameterRef="End_Of_Transmission" />
 				</EntryList>
-				<BaseContainer containerRef="CCSDSPacket">
-					<RestrictionCriteria>
-						<Comparison parameterRef="Packet_Header" value="52"/>
-					</RestrictionCriteria>
-				</BaseContainer>
-			</SequenceContainer>
-			<SequenceContainer name="CCSDSPacketEnding">
-				<EntryList>
-					<ParameterRefEntry parameterRef="Packet_End" />
-					<ParameterRefEntry parameterRef="Packet_CRCH" />
-					<ParameterRefEntry parameterRef="Packet_CRCL" />
-				</EntryList>
-				<BaseContainer containerRef="Spacecraft">
-					<RestrictionCriteria>
-						<Comparison parameterRef="Packet_End" value="4C"/>
-					</RestrictionCriteria>
-				</BaseContainer>
 			</SequenceContainer>
 		</ContainerSet>		
 	</TelemetryMetaData>
