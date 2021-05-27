@@ -32,6 +32,7 @@ if __name__ == '__main__':
             f.readinto(packet)
 
             sys.stdout.write('\rSending packets to {}:{} ({} of {})'.format(host, port, progress, total))
+            print(packet)
             sys.stdout.flush()
 
             tm_socket.sendto(packet, (host, port))
