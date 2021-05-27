@@ -144,8 +144,8 @@
 		<ContainerSet>
 			<SequenceContainer abstract="true" name="CCSDSPacket">
 				<EntryList>
-					<ParameterRefEntry parameterRef="CCSDS_Packet_Header" />
-					<ParameterRefEntry parameterRef="CCSDS_Packet_Time" />
+					<ParameterRefEntry parameterRef="Packet_Header" />
+					<ParameterRefEntry parameterRef="Packet_Time" />
 				</EntryList>
 			</SequenceContainer>
 			<SequenceContainer name="Spacecraft">
